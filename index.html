@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div>
+   
+    </div>
+<div class="container">
+    <h1 id="trans">Translator</h1>
+    <div class="wrapper">
+        <div class="text-input">
+            <textarea type = "text"   class="from-text" placeholder="Enter text" value = ""></textarea>
+            <textarea id="to-text" type  = "text" class="to-text" placeholder="Translator" ></textarea>
+
+        </div>
+       
+<ul class="controls">
+    <li class="row from">
+        <div class="icons">
+         <i class="fas fa-volume-up"></i>
+         <i class="fas fa-copy"></i>
+        </div>
+        <select name = "language" id="lan1" class="lan1" value = ""  >
+           
+            <!-- <option class="lan" value="en-US">English</option>
+            <option class="lan" value="hi-IN">Hindi</option>
+            <option class="lan" value="ne-NP">Nepali</option> -->
+        </select>
+    </li>
+<li class="exchange">
+    <i class="fas fa-change-alt"></i>
+</li>
+    <li class="row to">
+        <div class="icons">
+         <i class="fas fa-volume-up"></i>
+         <i class="fas fa-copy"></i>
+        </div>
+        <select name = "language" id="lan2" class="lan2" value = "" >
+            <!-- <option class="lan" value="en-US">Hindi</option>
+            <option class="lan" value="hi-IN">Nepali</option>
+            <option class="lan" value="ne-NP">English</option> -->
+        </select>
+    </li>
+</ul>        
+
+    </div>
+
+    <button id="btn">
+        Translator text
+    </button>
+</div>
+<!-- <script src="./js.js"></script> -->
+
+<script type="module"  >
+
+import countries from "./js.js"
+
+
+
+console.log(countries)
+
+const selecttag = document.getElementsByClassName("lan1")
+countries.forEach((elem,index)=> {
+// console.log(elem.name)
+var op = document.createElement("option");
+op.text = elem.name;
+op.value = elem.code;
+
+op.setAttribute("class","lan")
+// selecttag.append(op)
+selecttag[0].appendChild(op)
+
+})
+
+
+
+const selecttag1 = document.getElementsByClassName("lan2")
+countries.forEach((elem,index)=> {
+// console.log(elem.name)
+
+var op = document.createElement("option");
+op.text = elem.name;
+op.value = elem.code;
+
+op.setAttribute('class',"lan")
+
+// selecttag.append(op)
+selecttag1[0].appendChild(op)
+
+})
+
+
+
+document.getElementById("btn").addEventListener("click", async function (){
+  
+
+    var language1 = document.getElementById("lan1").value;
+var langauge2= document.getElementById("lan2").value; 
+console.log(langauge2,language1)
+  
+  var text = document.querySelector("textarea").value
+
+
+const api = `https://api.mymemory.translated.net/get?q=${text}&langpair=${language1}|${langauge2}`
+console.log(api)
+
+try {
+  let res = await fetch(api);
+  let save = await res.json();
+  console.log(save.responseData.translatedText);
+
+
+  display(save.responseData.translatedText)
+
+} catch (error) {
+  console.og(error)
+}
+
+
+
+
+
+
+})
+
+
+function display(get){
+    var dis = document.getElementById("to-text");
+    dis.value = ""
+dis.value = get
+console.log(get)
+
+}
+
+
+
+
+</script>
+
+</body>
+</html>
